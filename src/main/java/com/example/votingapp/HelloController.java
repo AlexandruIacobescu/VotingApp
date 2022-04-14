@@ -24,8 +24,7 @@ public class HelloController {
     public Button loginButton, registerButton;
     @FXML
     public TextField unameField, passField;
-    @FXML
-    public TableView<Query> table;
+
 
     public void button1_Click(ActionEvent e) throws SQLException, IOException {
         Connection con = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);

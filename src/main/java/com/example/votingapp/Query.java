@@ -13,7 +13,7 @@ public class Query {
     public String getText(){
         return text.get();
     }
-    public int getQueryId(){
+    public Integer getQueryId(){
         return queryid.get();
     }
 }
