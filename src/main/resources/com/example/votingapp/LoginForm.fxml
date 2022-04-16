@@ -26,6 +26,9 @@
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font></Label>
-      <Label fx:id="errorLabel" layoutX="244.0" layoutY="211.0" text="Label" visible="false" />
+      <Label fx:id="errorLabel" layoutX="244.0" layoutY="211.0" text="Label" visible="false">
+         <font>
+            <Font name="Cascadia Mono Regular" size="12.0" />
+         </font></Label>
    </children>
 </AnchorPane>

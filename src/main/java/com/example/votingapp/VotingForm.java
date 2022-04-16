@@ -2,20 +2,23 @@ package com.example.votingapp;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.ResourceBundle;
 
 public class VotingForm implements Initializable {
@@ -29,26 +32,51 @@ public class VotingForm implements Initializable {
     public ComboBox<String> queryComboBox;
     @FXML
     public TextArea textArea;
-    private Map<Integer, String> textColMap = new HashMap<>();
+    @FXML
+    public Button backButton, approveButton, disapproveButton;
+
+    private Map<Integer, String> textColMap;
+    public void initMap(ResultSet res) throws SQLException {
+        textColMap = new HashMap<>();
+        textColMap.put(Integer.parseInt(res.getString(1)), res.getString(2));
+    }
+    public String getMemberType(Connection con) throws SQLException{
+        PreparedStatement stmt = con.prepareStatement("SELECT category FROM members WHERE memberid = ?;");
+        stmt.setString(1, HelloApplication.accountid);
+        ResultSet set = stmt.executeQuery();
+        set.next();
+        return set.getString(1);
+    }
     public void initTable() throws SQLException {
+        queryComboBox.getItems().removeAll();
         idCol.setCellValueFactory(new PropertyValueFactory<>("QueryId"));
         textCol.setCellValueFactory(new PropertyValueFactory<>("Text"));
         ObservableList<Query> queries = FXCollections.observableArrayList();
         Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
-        Statement st = conn.createStatement();
-        ResultSet res = st.executeQuery("SELECT queryid,text FROM queries;");
+        PreparedStatement st = conn.prepareStatement("SELECT queryid,text FROM queries WHERE accesslevel = ?;");
+        st.setString(1, getMemberType(conn));
+        ResultSet res = st.executeQuery();
         while(res.next()){
             queries.add(new Query(Integer.parseInt(res.getString(1)), res.getString(2)));
             queryComboBox.getItems().add(res.getString(1));
-            textColMap.put(Integer.parseInt(res.getString(1)), res.getString(2));
+            initMap(res);
         }
         table.setItems(queries);
         conn.close();
     }
 
     public void queryComboBox_IndexChanged(){
-        textArea.setWrapText(true);
         textArea.setText(textColMap.get(Integer.parseInt(queryComboBox.getValue())));
+    }
+
+    public void backButton_Click(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("LoginForm.fxml")));
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Login");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
     }
 
     @Override

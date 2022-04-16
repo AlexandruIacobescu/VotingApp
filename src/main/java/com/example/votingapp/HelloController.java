@@ -28,12 +28,15 @@ public class HelloController {
 
     public void button1_Click(ActionEvent e) throws SQLException, IOException {
         Connection con = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
-        PreparedStatement stmt = con.prepareStatement("SELECT COUNT(username) FROM Accounts WHERE Username = ? AND Password = ?;");
+        PreparedStatement stmt = con.prepareStatement("SELECT COUNT(username),accountID FROM Accounts WHERE BINARY Username = ? AND BINARY Password = ?;");
         stmt.setString(1, unameField.getText());
         stmt.setString(2, passField.getText());
         ResultSet set = stmt.executeQuery();
         set.next();
         if(set.getString(1).equals("1")){
+            HelloApplication.accountid = set.getString(2);
+            HelloApplication.ausername = unameField.getText();
+            HelloApplication.apassword = passField.getText();
             Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("VotingForm.fxml")));
             Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
             Scene scene = new Scene(root);
