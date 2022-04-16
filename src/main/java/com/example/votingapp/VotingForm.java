@@ -35,9 +35,9 @@ public class VotingForm implements Initializable {
     @FXML
     public Button backButton, approveButton, disapproveButton;
 
-    private Map<Integer, String> textColMap;
-    public void initMap(ResultSet res) throws SQLException {
-        textColMap = new HashMap<>();
+    public  Map<Integer, String> textColMap= new HashMap<>();
+
+    public void reloadMap(ResultSet res) throws SQLException {
         textColMap.put(Integer.parseInt(res.getString(1)), res.getString(2));
     }
     public String getMemberType(Connection con) throws SQLException{
@@ -59,7 +59,7 @@ public class VotingForm implements Initializable {
         while(res.next()){
             queries.add(new Query(Integer.parseInt(res.getString(1)), res.getString(2)));
             queryComboBox.getItems().add(res.getString(1));
-            initMap(res);
+            reloadMap(res);
         }
         table.setItems(queries);
         conn.close();
@@ -67,6 +67,7 @@ public class VotingForm implements Initializable {
 
     public void queryComboBox_IndexChanged(){
         textArea.setText(textColMap.get(Integer.parseInt(queryComboBox.getValue())));
+        int i = 0;
     }
 
     public void backButton_Click(ActionEvent e) throws IOException {
