@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.votingapp.RegisterForm">
+   <children>
+      <Label focusTraversable="false" layoutX="106.0" layoutY="69.0" text="CREATE MEMBER ACCOUNT" textFill="#d52315">
+         <font>
+            <Font name="Cooper Black" size="26.0" />
+         </font>
+      </Label>
+      <TextField fx:id="unameField" layoutX="232.0" layoutY="140.0" prefHeight="25.0" prefWidth="231.0" />
+      <PasswordField fx:id="passField" layoutX="232.0" layoutY="182.0" prefHeight="25.0" prefWidth="231.0" />
+      <PasswordField fx:id="cpassField" layoutX="232.0" layoutY="223.0" prefHeight="25.0" prefWidth="231.0" />
+      <TextField fx:id="eidField" layoutX="232.0" layoutY="264.0" prefHeight="25.0" prefWidth="231.0" />
+      <Label focusTraversable="false" layoutX="163.0" layoutY="144.0" text="Username">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label focusTraversable="false" layoutX="165.0" layoutY="185.0" text="Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label focusTraversable="false" layoutX="117.0" layoutY="226.0" text="Confirm Password">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label focusTraversable="false" layoutX="146.0" layoutY="264.0" text="employee ID">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Button fx:id="createButton" layoutX="408.0" layoutY="328.0" mnemonicParsing="false" onAction="#createButton_Click" prefHeight="25.0" prefWidth="55.0" text="Create" />
+      <Button fx:id="backButton" layoutX="232.0" layoutY="328.0" mnemonicParsing="false" onAction="#backButton_Click" prefHeight="25.0" prefWidth="55.0" text="Back" />
+      <Label fx:id="controlLabel" focusTraversable="false" layoutX="232.0" layoutY="289.0" text="Label" textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>
