@@ -7,14 +7,17 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="573.0" style="-fx-background-color: #debd7c;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.votingapp.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="382.0" prefWidth="573.0" style="-fx-background-color: #a6bf00;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.votingapp.HelloController">
    <children>
-      <TextField fx:id="unameField" layoutX="244.0" layoutY="146.0" prefHeight="25.0" prefWidth="190.0" />
-      <PasswordField fx:id="passField" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="190.0" />
-      <Button fx:id="loginButton" layoutX="374.0" layoutY="233.0" mnemonicParsing="false" onAction="#button1_Click" prefHeight="25.0" prefWidth="59.0" text="Login" />
-      <Label layoutX="143.0" layoutY="95.0" text="Voting Application Login" textFill="#470bb8">
+      <TextField fx:id="unameField" layoutX="244.0" layoutY="146.0" prefHeight="25.0" prefWidth="190.0">
          <font>
-            <Font name="Cooper Black" size="24.0" />
+            <Font name="Verdana" size="12.0" />
+         </font></TextField>
+      <PasswordField fx:id="passField" layoutX="244.0" layoutY="187.0" prefHeight="25.0" prefWidth="190.0" />
+      <Button fx:id="loginButton" layoutX="374.0" layoutY="233.0" mnemonicParsing="false" onAction="#button1_Click" prefHeight="3.0" prefWidth="59.0" text="Login" />
+      <Label layoutX="117.0" layoutY="86.0" text="Voting Application Login" textFill="#b24206">
+         <font>
+            <Font name="Cooper Black" size="28.0" />
          </font>
       </Label>
       <Button fx:id="registerButton" layoutX="308.0" layoutY="233.0" mnemonicParsing="false" onAction="#registerButton_Click" text="Register" />

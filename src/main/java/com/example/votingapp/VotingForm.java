@@ -48,6 +48,8 @@ public class VotingForm implements Initializable {
     public TextArea textArea;
     @FXML
     public Button backButton, approveButton, disapproveButton;
+    @FXML
+    public Label errorLabel, helloLabel;
 
     // Map-ul `textColMap` pune in corespondenta queryid-ul din DB (i.e. tabelul `queries`) cu
     // textul aferent acelei intrebari, se foloseste pentru a putea asocia un interiorul programului
@@ -74,14 +76,15 @@ public class VotingForm implements Initializable {
 
     // Metoda `initTable` populeaza tabelul cu datele din DB
     public void initTable() throws SQLException {
-        queryComboBox.getItems().removeAll();  // se golesc toate elementele rezisuale din combo box, potential ramase la logarea anterioara
+        queryComboBox.getItems().clear();  // se golesc toate elementele rezisuale din combo box, potential ramase la logarea anterioara
         idCol.setCellValueFactory(new PropertyValueFactory<>("QueryId")); // se initializeaza coloanele din tableView
         textCol.setCellValueFactory(new PropertyValueFactory<>("Text")); // denumirea din paranteza trebuie sa fie aceeasi cu numele getterului
                                                                             // aferent din obiectul care modleaza ce intra in tabel, minus prefixul `get-`
         ObservableList<Query> queries = FXCollections.observableArrayList();  // lista in care se vor baga obiectele ce intra in tableview, dupa executia interogarii din DB mai jos
         Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);  // se realizeaza conexiunea cu DB
-        PreparedStatement st = conn.prepareStatement("SELECT queryid,text FROM queries WHERE accesslevel = ?;");  // din tabelul `queries` se extrage id-ul si textul aferent
+        PreparedStatement st = conn.prepareStatement("SELECT queryid,text FROM queries WHERE accesslevel = ? AND queryID NOT IN (SELECT queryID FROM votes WHERE voterID = ?);");  // din tabelul `queries` se extrage id-ul si textul aferent
         st.setString(1, getMemberType(conn));
+        st.setString(2, HelloApplication.accountid);
         ResultSet res = st.executeQuery();
         while(res.next()){
             queries.add(new Query(Integer.parseInt(res.getString(1)), res.getString(2)));  // se adauga in lista declarat mai sus, ce se extrage din DB
@@ -97,7 +100,12 @@ public class VotingForm implements Initializable {
     // in momentul in care selectez o alta intrebare din combo-box
     public void queryComboBox_IndexChanged(){
         // Aici se face util map-ul initializat la inceputul controller-ului
-        textArea.setText(textColMap.get(Integer.parseInt(queryComboBox.getValue())));
+        try {
+            textArea.setText(textColMap.get(Integer.parseInt(queryComboBox.getValue())));
+        }
+        catch(Exception e){
+            e.printStackTrace();
+        }
     }
 
     // Aceasta este metoda care inchide stage-ul actual si redeschide stage-ul de logare
@@ -111,11 +119,63 @@ public class VotingForm implements Initializable {
         stage.show();
     }
 
+    public void approveButton_Click() throws SQLException {
+        if(queryComboBox.getValue() == null){
+            Message msg = new Message(errorLabel, 4000);
+            msg.start();
+        }
+        else {
+            Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
+            PreparedStatement st = conn.prepareStatement("UPDATE queries SET approve = approve + 1 WHERE queryID = ?");
+            st.setString(1, queryComboBox.getValue());
+            st.executeUpdate();
+            st = conn.prepareStatement("INSERT INTO votes(voterid,queryID) VALUES(?,?);");
+            st.setString(1, HelloApplication.accountid);
+            st.setString(2, queryComboBox.getValue());
+            st.executeUpdate();
+            conn.close();
+            initTable();
+            textArea.clear();
+        }
+    }
+
+    public void disapproveButton_Click() throws SQLException {
+        if(queryComboBox.getValue() == null){
+            Message msg = new Message(errorLabel, 4000);
+            msg.start();
+        }
+        else {
+            Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
+            PreparedStatement st = conn.prepareStatement("UPDATE queries SET disapprove = disapprove + 1 WHERE queryID = ?");
+            st.setString(1, queryComboBox.getValue());
+            st.executeUpdate();
+            st = conn.prepareStatement("INSERT INTO votes(voterid,queryID) VALUES(?,?);");
+            st.setString(1, HelloApplication.accountid);
+            st.setString(2, queryComboBox.getValue());
+            st.executeUpdate();
+            conn.close();
+            initTable();
+            textArea.clear();
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         try {
             initTable();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        try{
+            Connection con = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
+            PreparedStatement st = con.prepareStatement("SELECT firstname, lastname FROM members WHERE memberID = ?;");
+            st.setString(1, HelloApplication.accountid);
+            ResultSet set = st.executeQuery();
+            set.next();
+            helloLabel.setText("Hello, " + set.getString(1) + " " + set.getString(2));
+            con.close();
+        }
+        catch(SQLException e){
             e.printStackTrace();
         }
     }

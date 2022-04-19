@@ -14,11 +14,14 @@
             <Font name="Cooper Black" size="26.0" />
          </font>
       </Label>
-      <TextField fx:id="unameTextField" layoutX="233.0" layoutY="173.0" prefHeight="25.0" prefWidth="221.0" />
+      <TextField fx:id="unameTextField" layoutX="233.0" layoutY="173.0" prefHeight="25.0" prefWidth="221.0">
+         <font>
+            <Font name="Verdana" size="12.0" />
+         </font></TextField>
       <PasswordField fx:id="passTextField" layoutX="233.0" layoutY="207.0" prefHeight="25.0" prefWidth="221.0" />
-      <Button fx:id="loginButton" layoutX="408.0" layoutY="257.0" mnemonicParsing="false" onAction="#loginButton_CLick" text="Login" />
-      <Button fx:id="backButton" layoutX="352.0" layoutY="257.0" mnemonicParsing="false" onAction="#backButton_CLick" prefHeight="25.0" prefWidth="46.0" text="Back" />
-      <Button fx:id="exitButton" layoutX="167.0" layoutY="257.0" mnemonicParsing="false" onAction="#exitButton_CLick" prefHeight="25.0" prefWidth="46.0" text="Exit" />
+      <Button fx:id="loginButton" layoutX="380.0" layoutY="257.0" mnemonicParsing="false" onAction="#loginButton_CLick" prefHeight="25.0" prefWidth="74.0" text="Login" />
+      <Button fx:id="backButton" layoutX="233.0" layoutY="257.0" mnemonicParsing="false" onAction="#backButton_CLick" prefHeight="25.0" prefWidth="61.0" text="Back" />
+      <Button fx:id="exitButton" layoutX="167.0" layoutY="257.0" mnemonicParsing="false" onAction="#exitButton_CLick" prefHeight="25.0" prefWidth="61.0" text="Exit" />
       <Label focusTraversable="false" layoutX="169.0" layoutY="210.0" text="Password">
          <font>
             <Font name="System Bold Italic" size="13.0" />

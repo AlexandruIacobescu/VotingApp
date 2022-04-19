@@ -24,7 +24,8 @@
       <DatePicker fx:id="joinDatePicker" layoutX="123.0" layoutY="145.0" prefHeight="25.0" prefWidth="205.0" />
       <ComboBox fx:id="categoryComboBox" layoutX="123.0" layoutY="184.0" prefHeight="25.0" prefWidth="205.0" />
       <TextField fx:id="emailField" layoutX="123.0" layoutY="223.0" prefHeight="25.0" prefWidth="205.0" />
-      <TextField fx:id="memberField" editable="false" focusTraversable="false" layoutX="123.0" layoutY="263.0" prefHeight="25.0" prefWidth="205.0" />
+      <TextField fx:id="memberField" layoutX="123.0" layoutY="263.0" prefHeight="25.0" prefWidth="205.0" />
+      <Button fx:id="insertButton" layoutX="123.0" layoutY="303.0" mnemonicParsing="false" onAction="#insertButton_Click" prefHeight="25.0" prefWidth="114.0" text="Insert Member" />
       <TableView fx:id="membersTableView" focusTraversable="false" layoutX="363.0" layoutY="14.0" prefHeight="421.0" prefWidth="724.0">
          <columns>
             <TableColumn fx:id="memIdCol" prefWidth="102.0" text="Member ID" />
@@ -36,7 +37,6 @@
             <TableColumn fx:id="emailCol" minWidth="5.0" prefWidth="122.0" text="Email" />
          </columns>
       </TableView>
-      <Button fx:id="insertButton" layoutX="123.0" layoutY="303.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="114.0" text="Insert Member" />
       <Button fx:id="backButton" layoutX="32.0" layoutY="409.0" mnemonicParsing="false" onAction="#backButton_Click" prefHeight="25.0" prefWidth="67.0" text="Back" />
       <Button fx:id="exitButton" layoutX="105.0" layoutY="409.0" mnemonicParsing="false" onAction="#exitButton_Click" prefHeight="25.0" prefWidth="65.0" text="Exit" />
       <Button fx:id="refreshButton" layoutX="178.0" layoutY="409.0" mnemonicParsing="false" onAction="#refreshButton_Click" prefHeight="25.0" prefWidth="65.0" text="Refresh" />
