@@ -12,6 +12,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Priority;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
 import java.io.FileNotFoundException;
@@ -25,6 +26,8 @@ public class RegisterForm {
 
     @FXML
     public TextField unameField, passField, cpassField, midField;
+    @FXML
+    public Label controlLabel;
 
     public void showErrorDialog(String content){
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -37,8 +40,8 @@ public class RegisterForm {
     public void showExceptionDialog(SQLException ex){
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Exception Dialog");
-        alert.setHeaderText("Look, an Exception Dialog");
-        alert.setContentText("Could not find file blabla.txt!");
+        alert.setHeaderText("Error inserting account information into the database");
+        alert.setContentText("The text in the fields do not match the table constraints");
 
         StringWriter sw = new StringWriter();
         PrintWriter pw = new PrintWriter(sw);
@@ -71,6 +74,7 @@ public class RegisterForm {
             ok = false;
         }
         else if(!passField.getText().equals(cpassField.getText()) && ok){
+            ok = false;
             showErrorDialog("The passwords do not match.");
             passField.setText("");
             cpassField.setText("");
@@ -89,6 +93,18 @@ public class RegisterForm {
         }
         if(ok){
             Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
+            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(memberID) FROM members WHERE memberID = ?;");
+            stmt.setString(1, midField.getText());
+            ResultSet res = stmt.executeQuery();
+            res.next();
+            if(!res.getString(1).equals("1")) {
+                ok = false;
+                showErrorDialog("No such member ID found in the database.\nPlease contact the administrator.");
+            }
+            conn.close();
+        }
+        if(ok){
+            Connection conn = DriverManager.getConnection(HelloApplication.url, HelloApplication.uname, HelloApplication.password);
             PreparedStatement stmt = conn.prepareStatement("INSERT INTO accounts(accountID, username, password) VALUES(?,?,?);");
             stmt.setString(1, midField.getText());
             stmt.setString(2, unameField.getText());
@@ -98,8 +114,14 @@ public class RegisterForm {
             }
             catch (SQLException e){
                 ok = false;
-
+                showExceptionDialog(e);
             }
+        }
+        if(ok){
+            controlLabel.setTextFill(Color.GREEN);
+            controlLabel.setText("Account created successfully.");
+            Message msg = new Message(controlLabel, 4500);
+            msg.start();
         }
     }
 

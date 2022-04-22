@@ -66,7 +66,7 @@ public class VotingForm implements Initializable {
      * ce trebuie afisate la deschiderea formei de votare, folosindu-se de memeber-id-ul (== accountID)
      * Determinat la momentul logarii, si pus in variablia statica HelloApplication.accountid
      */
-    public String getMemberType(Connection con) throws SQLException{
+    public String getMemberType(Connection con) throws SQLException {
         PreparedStatement stmt = con.prepareStatement("SELECT category FROM members WHERE memberid = ?;");
         stmt.setString(1, HelloApplication.accountid);
         ResultSet set = stmt.executeQuery();
@@ -86,7 +86,7 @@ public class VotingForm implements Initializable {
         st.setString(1, getMemberType(conn));
         st.setString(2, HelloApplication.accountid);
         ResultSet res = st.executeQuery();
-        while(res.next()){
+        while(res.next()) {
             queries.add(new Query(Integer.parseInt(res.getString(1)), res.getString(2)));  // se adauga in lista declarat mai sus, ce se extrage din DB
             queryComboBox.getItems().add(res.getString(1));  // se populeaza combo-box-ul cu queryid-urile fiecarei intrebari din tabel
             reloadMap(res);  // se reactulizeaza map-ul
@@ -98,7 +98,7 @@ public class VotingForm implements Initializable {
     // Aceasta metoda se executa la EVENIMENTUL : "Schimbare element selectat de catre utiliztor in combo-box"
     // Are scopul de a reactualiza textul intrebarii afisate in casuta text de vizualizare a intregii intrebari
     // in momentul in care selectez o alta intrebare din combo-box
-    public void queryComboBox_IndexChanged(){
+    public void queryComboBox_IndexChanged() {
         // Aici se face util map-ul initializat la inceputul controller-ului
         try {
             textArea.setText(textColMap.get(Integer.parseInt(queryComboBox.getValue())));
@@ -120,7 +120,7 @@ public class VotingForm implements Initializable {
     }
 
     public void approveButton_Click() throws SQLException {
-        if(queryComboBox.getValue() == null){
+        if(queryComboBox.getValue() == null) {
             Message msg = new Message(errorLabel, 4000);
             msg.start();
         }
