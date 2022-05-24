@@ -47,9 +47,19 @@ public class VotingForm implements Initializable {
     @FXML
     public TextArea textArea;
     @FXML
-    public Button backButton, approveButton, disapproveButton;
+    public Button backButton, approveButton, disapproveButton, resultsButton;
     @FXML
     public Label errorLabel, helloLabel;
+
+    public void resultsButton_Click(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(Objects.requireNonNull(getClass().getResource("ResultsForm.fxml")));
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        Scene scene = new Scene(root);
+        stage.setTitle("Votes Results");
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.show();
+    }
 
     // Map-ul `textColMap` pune in corespondenta queryid-ul din DB (i.e. tabelul `queries`) cu
     // textul aferent acelei intrebari, se foloseste pentru a putea asocia un interiorul programului

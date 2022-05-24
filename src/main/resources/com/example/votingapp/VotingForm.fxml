@@ -38,5 +38,6 @@
             <Font name="Calibri Bold Italic" size="18.0" />
          </font>
       </Label>
+      <Button fx:id="resultsButton" layoutX="611.0" layoutY="419.0" mnemonicParsing="false" onAction="#resultsButton_Click" text="See Results" />
    </children>
 </AnchorPane>
